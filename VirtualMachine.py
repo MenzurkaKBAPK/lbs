@@ -1,6 +1,6 @@
 class VirtualMachine:
 
-    IFETCH, ISTORE, IPUSH, IPOP, IADD, ISUB, ILT, JZ, JNZ, JMP, HALT = range(11)
+    IFETCH, ISTORE, IPUSH, IPOP, IADD, ISUB, ILT, JZ, JNZ, JMP, HALT, IEQUAL = range(12)
 
     def run(self, program):
         var = [None for i in range(26)]
@@ -34,6 +34,13 @@ class VirtualMachine:
                 pc += 1
             elif op == VirtualMachine.ILT:
                 if stack[-2] < stack[-1]:
+                    stack[-2] = 1
+                else:
+                    stack[-2] = 0
+                stack.pop()
+                pc += 1
+            elif op == VirtualMachine.IEQUAL:
+                if stack[-2] == stack[-1]:
                     stack[-2] = 1
                 else:
                     stack[-2] = 0

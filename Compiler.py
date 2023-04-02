@@ -30,6 +30,10 @@ class Compiler:
             self.compile(node.condition)
             self.compile(node.body1)
             self.gen(VirtualMachine.ILT)
+        elif node.kind == Parser.P_EQUAL:
+            self.compile(node.condition)
+            self.compile(node.body1)
+            self.gen(VirtualMachine.IEQUAL)
         elif node.kind == Parser.SET:
             self.compile(node.body1)
             self.gen(VirtualMachine.ISTORE)

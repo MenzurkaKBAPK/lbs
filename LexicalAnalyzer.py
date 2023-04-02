@@ -4,9 +4,9 @@ from base_functions import error
 
 class LexicalAnalyzer:
 
-    NUM, ID, IF, ELSE, WHILE, DO, LBRA, RBRA, LPAR, RPAR, PLUS, MINUS, LESS, EQUAL, SEMICOLON, EOF = range(16)
+    NUM, ID, IF, ELSE, WHILE, DO, LBRA, RBRA, LPAR, RPAR, PLUS, MINUS, LESS, ASSIGN, SEMICOLON, EOF, EQUAL = range(17)
 
-    SYMBOLS = {'{': LBRA, '}': RBRA, '=': EQUAL, ';': SEMICOLON,
+    SYMBOLS = {'{': LBRA, '}': RBRA, '=': ASSIGN, ';': SEMICOLON,
                '(': LPAR, ')': RPAR, '+': PLUS, '-': MINUS, '<': LESS}
 
     WORDS = {'if': IF, 'else': ELSE, 'do': DO, 'while': WHILE}
@@ -30,6 +30,11 @@ class LexicalAnalyzer:
             elif self.ch in LexicalAnalyzer.SYMBOLS:
                 self.sym = LexicalAnalyzer.SYMBOLS[self.ch]
                 self.get_ch()
+                if self.sym == LexicalAnalyzer.ASSIGN \
+                        and self.ch in LexicalAnalyzer.SYMBOLS \
+                        and LexicalAnalyzer.SYMBOLS[self.ch] == LexicalAnalyzer.ASSIGN:
+                    self.sym = LexicalAnalyzer.EQUAL
+                    self.get_ch()
             elif self.ch.isdigit():
                 int_val = 0
                 while self.ch.isdigit():
