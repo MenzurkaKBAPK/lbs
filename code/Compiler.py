@@ -26,6 +26,18 @@ class Compiler:
             self.compile(node.condition)
             self.compile(node.body1)
             self.gen(VirtualMachine.ISUB)
+        elif node.kind == Parser.MULT:
+            self.compile(node.condition)
+            self.compile(node.body1)
+            self.gen(VirtualMachine.IMULT)
+        elif node.kind == Parser.DIV:
+            self.compile(node.condition)
+            self.compile(node.body1)
+            self.gen(VirtualMachine.IDIV)
+        elif node.kind == Parser.POW:
+            self.compile(node.condition)
+            self.compile(node.body1)
+            self.gen(VirtualMachine.IPOW)
         elif node.kind == Parser.LT:
             self.compile(node.condition)
             self.compile(node.body1)
@@ -34,6 +46,10 @@ class Compiler:
             self.compile(node.condition)
             self.compile(node.body1)
             self.gen(VirtualMachine.IEQUAL)
+        elif node.kind == Parser.MT:
+            self.compile(node.condition)
+            self.compile(node.body1)
+            self.gen(VirtualMachine.IMT)
         elif node.kind == Parser.SET:
             self.compile(node.body1)
             self.gen(VirtualMachine.ISTORE)

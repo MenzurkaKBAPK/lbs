@@ -13,7 +13,8 @@ class Node:
 
 class Parser:
 
-    VAR, CONST, ADD, SUB, LT, SET, IF, IF_ELSE, WHILE, DO, EMPTY, SEQ, EXPR, PROG, P_EQUAL = range(15)
+    VAR, CONST, ADD, SUB, LT, SET, IF, IF_ELSE, WHILE, DO, EMPTY,\
+        SEQ, EXPR, PROG, P_EQUAL, MT, MULT, DIV, POW = range(19)
 
     def __init__(self, lexer):
         self.lexer = lexer
@@ -32,11 +33,18 @@ class Parser:
 
     def summa(self):
         n = self.term()
-        while self.lexer.sym == LexicalAnalyzer.PLUS or self.lexer.sym == LexicalAnalyzer.MINUS:
+        while self.lexer.sym in (LexicalAnalyzer.PLUS, LexicalAnalyzer.MINUS,
+                                 LexicalAnalyzer.MULT, LexicalAnalyzer.DIV, LexicalAnalyzer.POW):
             if self.lexer.sym == LexicalAnalyzer.PLUS:
                 kind = Parser.ADD
-            else:
+            elif self.lexer.sym == LexicalAnalyzer.MINUS:
                 kind = Parser.SUB
+            elif self.lexer.sym == LexicalAnalyzer.MULT:
+                kind = Parser.MULT
+            elif self.lexer.sym == LexicalAnalyzer.DIV:
+                kind = Parser.DIV
+            else:
+                kind = Parser.POW
             self.lexer.next_token()
             n = Node(kind, condition=n, body1=self.term())
         return n
@@ -49,6 +57,9 @@ class Parser:
         elif self.lexer.sym == LexicalAnalyzer.EQUAL:
             self.lexer.next_token()
             n = Node(Parser.P_EQUAL, condition=n, body1=self.summa())
+        elif self.lexer.sym == LexicalAnalyzer.MORE:
+            self.lexer.next_token()
+            n = Node(Parser.MT, condition=n, body1=self.summa())
         return n
 
     def expr(self):

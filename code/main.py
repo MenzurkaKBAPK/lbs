@@ -3,13 +3,15 @@ from Parser import Parser
 from VirtualMachine import VirtualMachine
 from Compiler import Compiler
 
-lexer = LexicalAnalyzer()
-parser = Parser(lexer)
 
-commands = parser.parse()
+if __name__ == '__main__':
+    lexer = LexicalAnalyzer()
+    parser = Parser(lexer)
 
-compiler = Compiler()
-program = compiler.compile(commands)
+    commands = parser.parse()
 
-vm = VirtualMachine()
-vm.run(program)
+    compiler = Compiler()
+    program = compiler.compile(commands)
+
+    vm = VirtualMachine()
+    vm.run(program)
