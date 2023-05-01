@@ -1,6 +1,7 @@
 class VirtualMachine:
 
-    IFETCH, ISTORE, IPUSH, IPOP, IADD, ISUB, ILT, JZ, JNZ, JMP, HALT, IEQUAL, IMT, IMULT, IDIV, IPOW = range(16)
+    IFETCH, ISTORE, IPUSH, IPOP, IADD, ISUB, ILT, JZ,\
+        JNZ, JMP, HALT, IEQUAL, IMT, IMULT, IDIV, IPOW = range(16)
 
     def run(self, program):
         var = [None for i in range(26)]
