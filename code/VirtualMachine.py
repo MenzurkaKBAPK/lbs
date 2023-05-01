@@ -82,6 +82,9 @@ class VirtualMachine:
                 break
 
         print('Execution finished.')
+
+        variables = []
         for i in range(26):
-            if not var[i] is None:
-                print('%c = %d' % (chr(i + ord('a')), var[i]))
+            if var[i]:
+                variables.append('%c = %d' % (chr(i + ord('a')), var[i]))
+        return variables

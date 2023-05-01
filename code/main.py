@@ -14,4 +14,6 @@ if __name__ == '__main__':
     program = compiler.compile(commands)
 
     vm = VirtualMachine()
-    vm.run(program)
+    output = vm.run(program)
+
+    print('\n'.join(output))
