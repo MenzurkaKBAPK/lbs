@@ -31,22 +31,33 @@ class Parser:
         else:
             return self.paren_expr()
 
-    def summa(self):
+    def power(self):
         n = self.term()
-        while self.lexer.sym in (LexicalAnalyzer.PLUS, LexicalAnalyzer.MINUS,
-                                 LexicalAnalyzer.MULT, LexicalAnalyzer.DIV, LexicalAnalyzer.POW):
+        if self.lexer.sym == LexicalAnalyzer.POW:
+            self.lexer.next_token()
+            n = Node(Parser.POW, condition=n, body1=self.power())
+        return n
+
+    def product(self):
+        n = self.power()
+        while self.lexer.sym in (LexicalAnalyzer.MULT, LexicalAnalyzer.DIV):
+            if self.lexer.sym == LexicalAnalyzer.MULT:
+                kind = Parser.MULT
+            else:
+                kind = Parser.DIV
+            self.lexer.next_token()
+            n = Node(kind, condition=n, body1=self.power())
+        return n
+
+    def summa(self):
+        n = self.product()
+        while self.lexer.sym in (LexicalAnalyzer.PLUS, LexicalAnalyzer.MINUS):
             if self.lexer.sym == LexicalAnalyzer.PLUS:
                 kind = Parser.ADD
-            elif self.lexer.sym == LexicalAnalyzer.MINUS:
-                kind = Parser.SUB
-            elif self.lexer.sym == LexicalAnalyzer.MULT:
-                kind = Parser.MULT
-            elif self.lexer.sym == LexicalAnalyzer.DIV:
-                kind = Parser.DIV
             else:
-                kind = Parser.POW
+                kind = Parser.SUB
             self.lexer.next_token()
-            n = Node(kind, condition=n, body1=self.term())
+            n = Node(kind, condition=n, body1=self.product())
         return n
 
     def test(self):
@@ -106,6 +117,7 @@ class Parser:
             n.body1 = self.paren_expr()
             if self.lexer.sym != LexicalAnalyzer.SEMICOLON:
                 error('Parser', '";" expected')
+            self.lexer.next_token()
         elif self.lexer.sym == LexicalAnalyzer.SEMICOLON:
             n = Node(Parser.EMPTY)
             self.lexer.next_token()
@@ -113,6 +125,8 @@ class Parser:
             n = Node(Parser.EMPTY)
             self.lexer.next_token()
             while self.lexer.sym != LexicalAnalyzer.RBRA:
+                if self.lexer.sym == LexicalAnalyzer.EOF:
+                    error('Parser', '"}" expected')
                 n = Node(Parser.SEQ, condition=n, body1=self.statement())
             self.lexer.next_token()
         else:

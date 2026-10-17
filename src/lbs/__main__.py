@@ -1,19 +1,20 @@
-from .compiler import Compiler
-from .lexer import LexicalAnalyzer
-from .parser import Parser
-from .virtual_machine import VirtualMachine
+import sys
+
+from .errors import LbsError
+from .interpreter import run_source
+
+
+def main():
+    try:
+        output = run_source(sys.stdin.read())
+    except LbsError as exc:
+        print(exc, file=sys.stderr)
+        return 1
+
+    print('Execution finished.')
+    print('\n'.join(output))
+    return 0
 
 
 if __name__ == '__main__':
-    lexer = LexicalAnalyzer()
-    parser = Parser(lexer)
-
-    commands = parser.parse()
-
-    compiler = Compiler()
-    program = compiler.compile(commands)
-
-    vm = VirtualMachine()
-    output = vm.run(program)
-
-    print('\n'.join(output))
+    raise SystemExit(main())

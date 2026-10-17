@@ -20,6 +20,10 @@ Get-Content -Raw examples/powers.lbs | python -m lbs
 PYTHONPATH=src python -m lbs < examples/powers.lbs
 ```
 
+Графический редактор запускается командой `python -m lbs.ide` при том же
+значении `PYTHONPATH`. Его кнопка «Запустить» выполняет текст прямо во
+встроенном интерпретаторе.
+
 Результатом работы являются значения переменных после завершения программы:
 
 ```text

@@ -1,3 +1,6 @@
+from .errors import error
+
+
 class VirtualMachine:
 
     IFETCH, ISTORE, IPUSH, IPOP, IADD, ISUB, ILT, JZ,\
@@ -13,16 +16,15 @@ class VirtualMachine:
                 arg = program[pc + 1]
 
             if op == VirtualMachine.IFETCH:
-                stack.append(var[arg] if not var[arg] is None else 0)
+                stack.append(var[arg] if var[arg] is not None else 0)
                 pc += 2
             elif op == VirtualMachine.ISTORE:
-                var[arg] = stack.pop()
+                var[arg] = stack[-1]
                 pc += 2
             elif op == VirtualMachine.IPUSH:
                 stack.append(arg)
                 pc += 2
             elif op == VirtualMachine.IPOP:
-                stack.append(var[arg])
                 stack.pop()
                 pc += 1
             elif op == VirtualMachine.IADD:
@@ -38,7 +40,9 @@ class VirtualMachine:
                 stack.pop()
                 pc += 1
             elif op == VirtualMachine.IDIV:
-                stack[-2] /= stack[-1]
+                if stack[-1] == 0:
+                    error('VirtualMachine', 'Division by zero')
+                stack[-2] //= stack[-1]
                 stack.pop()
                 pc += 1
             elif op == VirtualMachine.IPOW:
@@ -81,10 +85,8 @@ class VirtualMachine:
             elif op == VirtualMachine.HALT:
                 break
 
-        print('Execution finished.')
-
         variables = []
         for i in range(26):
-            if var[i]:
-                variables.append('%c = %d' % (chr(i + ord('a')), var[i]))
+            if var[i] is not None:
+                variables.append(f'{chr(i + ord("a"))} = {var[i]}')
         return variables

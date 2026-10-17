@@ -1,4 +1,5 @@
 import sys
+
 from .errors import error
 
 
@@ -12,13 +13,14 @@ class LexicalAnalyzer:
 
     WORDS = {'if': IF, 'else': ELSE, 'do': DO, 'while': WHILE}
 
-    def __init__(self):
+    def __init__(self, stream=None):
+        self.stream = stream if stream is not None else sys.stdin
         self.ch = ' '
         self.value = None
         self.sym = None
 
     def get_ch(self):
-        self.ch = sys.stdin.read(1)
+        self.ch = self.stream.read(1)
 
     def next_token(self):
         self.value = None
@@ -41,16 +43,16 @@ class LexicalAnalyzer:
                         and LexicalAnalyzer.SYMBOLS[self.ch] == LexicalAnalyzer.MULT:
                     self.sym = LexicalAnalyzer.POW
                     self.get_ch()
-            elif self.ch.isdigit():
+            elif self.ch.isascii() and self.ch.isdigit():
                 int_val = 0
-                while self.ch.isdigit():
+                while self.ch.isascii() and self.ch.isdigit():
                     int_val = int_val * 10 + int(self.ch)
                     self.get_ch()
                 self.value = int_val
                 self.sym = LexicalAnalyzer.NUM
-            elif self.ch.isalpha():
+            elif self.ch.isascii() and self.ch.isalpha():
                 ident = ''
-                while self.ch.isalpha():
+                while self.ch.isascii() and self.ch.isalpha():
                     ident += self.ch.lower()
                     self.get_ch()
                 if ident in LexicalAnalyzer.WORDS:

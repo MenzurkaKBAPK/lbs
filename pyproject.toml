@@ -9,5 +9,11 @@ description = "An educational programming language and virtual machine"
 readme = "README.md"
 requires-python = ">=3.10"
 
+[project.scripts]
+lbs = "lbs.__main__:main"
+
+[project.gui-scripts]
+lbs-ide = "lbs.ide:main"
+
 [tool.setuptools.package-data]
 lbs = ["assets/*"]

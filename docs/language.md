@@ -44,7 +44,9 @@ while (a < 10) a = a + 1;
 do a = a - 1; while (a > 0);
 ```
 
-Поддерживаются `+`, `-`, `*`, `/`, `**` и скобки. Операции сравнения `<`,
+Поддерживаются `+`, `-`, `*`, `/`, `**` и скобки. Деление целочисленное:
+`7 / 2` даёт `3`. Степень вычисляется раньше умножения и деления, а они —
+раньше сложения и вычитания; `**` правоассоциативен. Операции сравнения `<`,
 `==` и `>` дают `1` для истины и `0` для лжи; эти значения используются в
 условиях и циклах. Неинициализированная переменная читается как `0`.
 
@@ -67,8 +69,11 @@ statement   := "if" "(" expression ")" statement ("else" statement)?
              | ";"
 expression  := assignment | comparison
 assignment  := variable "=" expression
-comparison  := arithmetic (("<" | "==" | ">") arithmetic)?
-arithmetic  := number | variable | "(" expression ")" | binary-operation
+comparison  := sum (("<" | "==" | ">") sum)?
+sum         := product (("+" | "-") product)*
+product     := power (("*" | "/") power)*
+power       := primary ("**" power)?
+primary     := number | variable | "(" expression ")"
 ```
 
 Пример [examples/powers.lbs](../examples/powers.lbs) демонстрирует блок,
