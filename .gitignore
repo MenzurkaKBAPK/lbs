@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+
+.idea/
+.vscode/
+
+build/
+dist/
+*.spec
+
+.venv/
+venv/
+Pipfile.lock
+
