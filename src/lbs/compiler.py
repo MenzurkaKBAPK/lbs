@@ -1,5 +1,5 @@
-from Parser import Parser
-from VirtualMachine import VirtualMachine
+from .parser import Parser
+from .virtual_machine import VirtualMachine
 
 
 class Compiler:

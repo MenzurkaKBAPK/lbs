@@ -1,7 +1,7 @@
-from LexicalAnalyzer import LexicalAnalyzer
-from Parser import Parser
-from VirtualMachine import VirtualMachine
-from Compiler import Compiler
+from .compiler import Compiler
+from .lexer import LexicalAnalyzer
+from .parser import Parser
+from .virtual_machine import VirtualMachine
 
 
 if __name__ == '__main__':

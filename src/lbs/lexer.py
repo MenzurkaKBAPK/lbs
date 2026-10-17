@@ -1,5 +1,5 @@
 import sys
-from base_functions import error
+from .errors import error
 
 
 class LexicalAnalyzer:

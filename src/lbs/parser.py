@@ -1,5 +1,5 @@
-from LexicalAnalyzer import LexicalAnalyzer
-from base_functions import error
+from .errors import error
+from .lexer import LexicalAnalyzer
 
 
 class Node:

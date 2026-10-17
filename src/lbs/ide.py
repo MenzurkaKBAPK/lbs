@@ -1,6 +1,10 @@
 import tkinter as tk
 import tkinter.filedialog as fd
 import os
+from pathlib import Path
+
+
+ASSETS_DIR = Path(__file__).with_name('assets')
 
 
 def save_file(file_name):
@@ -64,10 +68,10 @@ if __name__ == '__main__':
     control2 = tk.Menu(control, tearoff=0)
     control.add_cascade(label='Файл', menu=control2)
 
-    icon_new = tk.PhotoImage(file='new_file.gif')
-    icon_open = tk.PhotoImage(file='open_file.gif')
-    icon_save = tk.PhotoImage(file='save_file.gif')
-    icon_run = tk.PhotoImage(file='run.png')
+    icon_new = tk.PhotoImage(file=ASSETS_DIR / 'new_file.gif')
+    icon_open = tk.PhotoImage(file=ASSETS_DIR / 'open_file.gif')
+    icon_save = tk.PhotoImage(file=ASSETS_DIR / 'save_file.gif')
+    icon_run = tk.PhotoImage(file=ASSETS_DIR / 'run.png')
 
     control2.add_command(label='Новый файл', image=icon_new, compound='left', command=new_file)
     control2.add_command(label='Открыть...', image=icon_open, compound='left', command=o_f)
